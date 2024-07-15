@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load cloudinary %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    {% block title %}
+    <title>Programs | School of the Spirit Network Global</title>
+    
+    {% endblock title %}
+
+    <meta property='og:title' content='Programs | School of the Spirit Network Global' />
+    <meta property='og:description'
+        content='A platform given the mandate to bringing believers into the reality of SPIRITUALITY in Christ by CONSISTENT Growth in Grace and in the Knowledge of our Lord and Savior Jesus Christ.' />
+    <meta property='og:url' content='https://sosnglobal.pythonanywhere.com/programs/'>
+</head>
+
+<body>
+
+    {% block content %}
+    
+    <!-- My code here -->
+    <!--================ Start Header Menu Area =================-->
+    <header class="header_area">
+        <div class="header-top">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-sm-6 col-4 header-top-left">
+                        <a href="tel:+2349083525255">
+                            <span class="lnr lnr-phone"></span>
+                            <span class="text">
+                                <span class="text">+234 908 352 5255</span>
+                            </span>
+                        </a>
+                        <a href="mailto:schoolofthespiritnetwork@gmail.com">
+                            <span class="lnr lnr-envelope"></span>
+                            <span class="text">
+                                <span class="text">schoolofthespiritnetwork@gmail.com</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <a class="navbar-brand logo_h" href="/"><img src="{% static 'img/logo60x37.png' %}" alt=""></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                            <li class="nav-item active"><a class="nav-link" href="{% url 'program:all' %}">Programs</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!--================ End Header Menu Area =================-->
+
+
+        <!-- =============== Start Main Area ====================== -->
+        <section class="content-container">
+            <main class="program-list">
+                <h1>Programs</h1>
+                {% for program in program_list %}
+                <div>
+                    <h2 class="prgram-list-h2"><a href="{{program.get_absolute_url}}">{{program.title}}</a>
+                    {% if program.not_started %}
+                    <span class="program_status_tag bg_success" style="font-size: 10px;">Reg. Open</span>
+                    {% endif %}
+                    
+                    {% if program.is_ongoing %}
+                    <span class="program_status_tag bg_warning" style="font-size: 10px;">Prog. Started</span>
+                    {% endif %}
+                    
+                    {% if program.is_past_due %}
+                    <span class="program_status_tag bg_danger" style="font-size: 10px;">Prog. Ended</span>
+                    {% endif %}
+                    </h2>
+                    <a href="{{program.get_absolute_url}}"><img src="{{program.flyer.url}}" alt="program_flyer"></a>
+                                        
+                    <p>{{program.description}}</p>
+                    <div>
+                        <a href="{{program.get_absolute_url}}"><button>View Details</button></a>
+                        <ul>
+                            {% if program.tag_one %}
+                                <li>{{program.tag_one}}</li>
+                            {% endif %}
+                            {% if program.tag_two %}
+                                <li>{{program.tag_two}}</li>
+                            {% endif %}
+                            {% if program.tag_three %}
+                                <li>{{program.tag_three}}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+    
+                </div>
+                {% endfor %}
+            </main>
+
+    {% endblock content %}
+
+
+ 

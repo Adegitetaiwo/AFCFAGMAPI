@@ -1,0 +1,179 @@
+{% load static %}
+{% load cloudinary %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{% static 'img/logo60x37.png' %}" type="image/png">
+
+    {% block title %}
+      {% if title %}
+        <title>{{title}} | School of the Spirit Network Global</title>
+      {% else %}
+        <title>School of the Spirit Network Global</title>
+      {% endif %}
+      
+    {% endblock title %}
+
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/lightbox/simpleLightbox.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
+    <link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}">
+    <!-- main css -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <meta property='og:image' content="{% static 'img/logo60x37.png' %}">
+    <meta property='og:image:width' content='1200'>
+    <meta property='og:image:height' content='627'>
+    <!-- TYPE BELOW IS PROBABLY: 'website' or 'article' or look on https://ogp.me/#types -->
+    <meta property="og:type" content='website'>
+</head>
+
+<body>
+    <!--================ Start Home Banner Area =================-->
+
+    <body>
+    
+        {% block content %}
+          
+        {% endblock content %}
+
+    <!-- Optional JavaScript -->
+    <footer class="footer-area section_gap">
+    
+        <!-- begin: scrol to top botton -->
+        <button id="back2top"><span class="fa fa-chevron-up"></span></button>
+        <!-- end: scrol to top botton -->
+    
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-6 single-footer-widget">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'program:all' %}">Programs</a></li>
+                        <li><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 single-footer-widget">
+                    <h4>Newsletter</h4>
+                    <p>Be the first to get notified of any of our programs and receive occasional
+                    letters from us.</p>
+                    <div class="form-wrap" id="mc_embed_signup">
+                        <form target="_blank" action="" method="get" class="form-inline" id="footerSubForm">
+                            <input class="form-control" name="EMAIL" placeholder="Your Email Address"
+                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your Email Address '"
+                                required="" type="email" id="footerSubInput">
+                            <button class="click-btn btn btn-default">
+                                <span>subscribe</span>
+                            </button>
+                            <div style="position: absolute; left: -5000px;">
+                                <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+                            </div>
+    
+                            <div class="info" id="fotter-sub-message"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row footer-bottom d-flex justify-content-between">
+                <p class="col-lg-8 col-sm-12 footer-text m-0 text-white">Copyright © 2018 All rights reserved | © SOSN
+                    Global
+                    <br><span style="font-size: 0.7rem;">Developed with <i class="fa fa-heart-o" aria-hidden="true"
+                            style="color: red"></i> by <a href="https://www.linkedin.com/in/taiwo-adegite-39849b187/"
+                            target="_blank">adegitetaiwo</a> -
+                        Template by
+                        <a href="https://colorlib.com/" target="_blank">Colorlib</a></span>
+                </p>
+    
+                <div class="col-lg-4 col-sm-12 footer-social">
+                    <a><i class="fa fa-facebook"></i></a>
+                    <a><i class="fa fa-twitter"></i></a>
+                    <a><i class="fa fa-chrome"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--================ End footer Area  =================-->
+
+
+        <script src="https://www.biblegateway.com/public/link-to-us/tooltips/bglinks.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            BGLinks.version = "KJV";
+            BGLinks.linkVerses();
+        </script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/stellar.js' %}"></script>
+    <script src="{% static 'js/countdown.js' %}"></script>
+    <script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/owl-carousel-thumb.min.js' %}"></script>
+    <script src="{% static 'js/jquery.ajaxchimp.min.js' %}"></script>
+    <script src="{% static 'vendors/counter-up/jquery.counterup.js' %}"></script>
+    <script src="{% static 'js/mail-script.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/back2top.min.js' %}"></script>
+
+    <!-- BACK TO TOP function -->
+    <script>
+        const button = document.querySelector("#back2top");
+        BACK2TOP(button, 200);
+
+        // BACK2TOP(selector, offset, prop, time, effect, delay);
+        BACK2TOP(button, 200, "all", 300, "ease", 0);
+    </script>
+    <script>
+        // Select all links with hashes
+        $('a[href*="#"]')
+            // Remove links that don't actually link to anything
+            .not('[href="#"]')
+            .not('[href="#0"]')
+            .click(function (event) {
+                // On-page links
+                if (
+                    location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '')
+                    &&
+                    location.hostname == this.hostname
+                ) {
+                    // Figure out element to scroll to
+                    var target = $(this.hash);
+                    target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+                    // Does a scroll target exist?
+                    if (target.length) {
+                        // Only prevent default if animation is actually gonna happen
+                        event.preventDefault();
+                        $('html, body').animate({
+                            scrollTop: target.offset().top
+                        }, 1100, function () {
+                            // Callback after animation
+                            // Must change focus!
+                            var $target = $(target);
+                            $target.focus();
+                            if ($target.is(":focus")) { // Checking if the target was focused
+                                return false;
+                            } else {
+                                $target.attr('tabindex', '-1'); // Adding tabindex for elements not focusable
+                                $target.focus(); // Set focus again
+                            };
+                        });
+                    }
+                }
+            });
+    </script>
+    <!--gmaps Js-->
+    <script src="{% static 'js/theme.js' %}"></script>
+</body>
+<!--================ Start footer Area  =================-->
+
+</html>

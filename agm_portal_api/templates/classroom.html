@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    {% block title %}
+    <title>{{program.title}} | School of the Spirit Network Global</title>
+    {% endblock title %}
+
+
+</head>
+
+<body>
+    {% block content %}
+    <!--================ Start Header Menu Area =================-->
+    <header class="header_area">
+        <div class="header-top">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-sm-6 col-4 header-top-left">
+                        <a href="tel:+2349083525255">
+                            <span class="lnr lnr-phone"></span>
+                            <span class="text">
+                                <span class="text">+234 908 352 5255</span>
+                            </span>
+                        </a>
+                        <a href="mailto:schoolofthespiritnetwork@gmail.com">
+                            <span class="lnr lnr-envelope"></span>
+                            <span class="text">
+                                <span class="text">schoolofthespiritnetwork@gmail.com</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <a class="navbar-brand logo_h" href="."><img src="{% static 'img/logo60x37.png' %}" alt=""></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto">
+                            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                            <li class="nav-item active"><a class="nav-link" href="{% url 'program:all' %}">Programs</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!--================ End Header Menu Area =================-->
+
+
+    <!--================Home Banner Area =================-->
+    <section class="banner_area">
+        <div class="banner_inner d-flex align-items-center">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6">
+                        <div class="banner_content text-center">
+                            <h2>{{object.title}}</h2>
+
+                            <p>{{object.description}}</p>
+                            <div class="page_link">
+                                <a href="{% url 'index' %}">Home</a>
+                                <a href="{% url 'program:all' %}">Programs</a>
+                                <a href="#">{{object.title}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================End Home Banner Area =================-->
+
+    <!--================Blog Area =================-->
+    <section class="blog_area single-post-area section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 posts-list">
+                    <div class="single-post row">
+                        <div class="col-lg-12">
+                            <div class="feature-img">
+                                <img class="img-fluid" style="border-radius: 10px;" src="{{program.flyer.url}}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-lg-3  col-md-3">
+                            <div class="blog_info text-right">
+                                <div class="post_tag">
+                                    {% if program.tag_one %}
+                                    <a href="#">{{object.tag_one}}</a>
+                                    {% endif %}
+                                    {% if program.tag_two %}
+                                    <a href="#">, {{object.tag_two}}</a>
+                                    {% endif %}
+                                    {% if program.tag_three %}
+                                    <a href="#">, {{object.tag_three}}</a>
+                                    {% endif %}
+                                    {% if program.tag_four %}
+                                    <a href="#">, {{program.tag_four}}</a>
+                                    {% endif %}
+                                </div>
+                                <ul class="blog_meta list">
+                                    <li title="Date Posted"><a><i class="lnr lnr-calendar-full"></i>
+                                            {{program.posted|date:"D, d M, y"}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-md-9 blog_details">
+                            <h2>{{program.title}}</h2>
+                            <a href="#cource_resources">Go to Cource Content</a><br><br>
+                            {{program.body}}
+                        </div>
+                    </div>
+
+
+                    <!-- Comments -->
+                    <a name="cource_resources"></a>
+                    <div class="comments-area">
+                        {% if program.google_form %}
+                        <iframe src="{{program.google_form}}" width="100%" height="1106" frameborder="0"
+                            marginheight="0" marginwidth="0">Loading…
+                        </iframe>
+                        {% else %}
+                        <p style="text-align: center; color: rgba(241, 139, 139, 0.867);">Registration is Cloased !!</p>
+                        <a href=""><button class="program_class_btn">Classroom</button></a>
+
+                        <p style="text-align: center; font-size: 0.6rem;"><a href="{% url 'contact' %}"
+                                style="color: blue; text-decoration: underline;">contact us</a> if you want enquiry
+                            about the program or request access.</p>
+                        {% endif %}
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                        <aside class="single_sidebar_widget author_widget"><br>
+                            <img class="author_img rounded-circle" src="{% static 'img/logo60x37.png' %}" alt="">
+                            <h4>School of the Spirit Network Global</h4>
+                            <p>Administrator</p>
+                            <div class="social_icon">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-whatsapp"></i></a>
+                            </div>
+                            <p>A platform given the mandate to bringing believers into the reality of <span
+                                    style="font-weight: bold;">spirituality</span> in Christ by <b>consistent</b> Growth
+                                in
+                                Grace and in the Knowledge of our Lord and Savior Jesus Christ.</p>
+                            <div class="br"></div>
+                        </aside>
+                        <aside class="single_sidebar_widget popular_post_widget">
+                            <h3 class="widget_title">Other Programs</h3>
+                            {% for other_program in program_list %}
+                            {% if other_program.id != program.id %}
+                            <!-- code to iterate across each copy/instance of a book -->
+                            <div class="media post_item">
+                                <div class="media-body">
+                                    <a href="{{other_program.get_absolute_url}}">
+                                        <h3>{{other_program.title}}</h3>
+                                    </a>
+                                    <p>{{ other_program.posted|timesince:current_time }} ago</p>
+
+
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+
+                            <div class="br"></div>
+                        </aside>
+
+
+                        <aside class="single-sidebar-widget newsletter_widget">
+                            <h4 class="widget_title">Newsletter</h4>
+                            <p>
+                                Be the first to get notified of any of our programs and receive occasional
+                                letters from us.
+                            </p>
+                            <div class="form-group d-flex flex-row">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control" id="inlineFormInputGroup"
+                                        placeholder="Feature is disabled" onfocus="this.placeholder = ''"
+                                        onblur="this.placeholder = 'Feature is disabled'" disabled>
+                                </div>
+                                <a class="bbtns">Subcribe</a>
+                            </div>
+                            <p class="text-bottom" style="display: none;">You can unsubscribe at any time</p>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================Blog Area =================-->
+
+    <!--================ Start footer Area  =================-->
+    {% endblock content %}
