@@ -23,7 +23,7 @@ def add_campus_avs_list(request):
     data_copy = data.copy()
     if data_copy['averageNumberOfStudent'] == '':
         data_copy['averageNumberOfStudent'] = 0
-    
+
     if data_copy['numberOfWorkforce'] == '':
         data_copy['numberOfWorkforce'] = 0
 
@@ -39,7 +39,7 @@ def add_campus_avs_list(request):
         return Response({
             'queryset': serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
-    
+
 
 @api_view(['GET'])
 def get_campus_avs_list(request):
@@ -51,10 +51,10 @@ def get_campus_avs_list(request):
         # query specific campus AVS in 'CampusAVS' Database
         queryset = CampusAVS.objects.filter(campusOrSchoolAcronym=campus)
         serializer = getCampusAvsListSerializers(queryset, many=True)
-    
+
         return Response({
             'queryset': serializer.data
-        }, status=status.HTTP_200_OK)   
+        }, status=status.HTTP_200_OK)
     except Exception as e:
         # query all the CAMPUS avs in 'CampusAVS' Database
         queryset = CampusAVS.objects.all().order_by('id')
@@ -63,7 +63,7 @@ def get_campus_avs_list(request):
         return Response({
             'queryset': serializer.data
         }, status=status.HTTP_200_OK)
-    
+
 
 @api_view(['GET'])
 def get_campus_avs_report(request):
@@ -74,52 +74,47 @@ def get_campus_avs_report(request):
         campus = query['campus']
         program = query['program-type']
         # query specific campus AVS in 'CampusAVS' Database
-        queryset = ReportImage.objects.filter(campusOrSchoolAcronym=campus, program_type = program)
-        serializer = getCampusAVSReportSerializers(queryset, many=True)
-    
-        return Response({
-            'queryset': serializer.data
-        }, status=status.HTTP_200_OK)   
-    except Exception as e:
-        # query all the CAMPUS avs in 'CampusAVS' Database
-        queryset = CampusAVSReport.objects.all().order_by('id')
+        queryset = CampusAVSReport.objects.filter(campusOrSchoolAcronym=campus, program_type = program)
         serializer = getCampusAVSReportSerializers(queryset, many=True)
 
         return Response({
             'queryset': serializer.data
         }, status=status.HTTP_200_OK)
-    
+    except Exception as e:
+
+        return Response({'code': 400,
+                'status': 'Bad Request',
+                'message': "1). Internal error occured, check your Internet connection OR the API back-end code. 2). Make sure that 'campusOrSchoolAcronym' and 'program_type' parameter is passed. The system passed this error specifically ->{}".format(e)
+                }, status=status.HTTP_200_OK)
+
 @api_view(['POST'])
 def add_campus_avs_report(request):
     data = request.data or request.query_params
     data_copy = data.copy()
-    
-    try:
-    
-        obj, created = CampusAVSReport.objects.update_or_create(
-        campusOrSchoolAcronym=data_copy['campusOrSchoolAcronym'], program_type=data_copy['program_type'],
-        defaults={'year': data_copy['year'],
-                  'salvation': data_copy['salvation'],
-                  'sanctification': data_copy['sanctification'],
-                  'baptism': data_copy['baptism'],
-                  'healing': data_copy['healing'],
-                  'TotalAttendanceMale': data_copy['TotalAttendanceMale'],
-                  'TotalAttendanceFemale': data_copy['TotalAttendanceFemale'],
-                  'TotalAttendance': data_copy['TotalAttendance']
-                  },
-    )
-        serializers = getCampusAVSReportSerializers(obj)
 
-        return Response({
-                'queryset': serializers.data
-                }, status=status.HTTP_200_OK)
+    try:
+
+
+        serializer = getCampusAVSReportSerializers(data=data_copy)
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response({
+                'queryset': serializer.data
+            }, status=status.HTTP_200_OK)
+
+        else:
+            return Response({
+                'queryset': serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
 
         # if CampusAVSReport.objects.filter(campusOrSchoolAcronym=data_copy['campusOrSchoolAcronym'], program_type=data_copy['program_type']).exists():
         #     instance = CampusAVSReport.objects.get(campusOrSchoolAcronym=data_copy['campusOrSchoolAcronym'], program_type=data_copy['program_type'])
-        
+
         #     instance.delete(keep_parents=False)
-           
-           
+
+
         #     serializer = updateCampusAVSReportSerializers(data=data_copy)
 
         #     if serializer.is_valid():
@@ -132,9 +127,9 @@ def add_campus_avs_report(request):
         #         return Response({
         #             'queryset': serializer.errors
         #         }, status=status.HTTP_400_BAD_REQUEST)
-        # else: 
+        # else:
         #     serializer = getCampusAVSReportSerializers(data=data_copy)
-        
+
         #     if serializer.is_valid():
         #         serializer.save()
 
@@ -151,7 +146,7 @@ def add_campus_avs_report(request):
         return Response({
                 'code': 400,
                 'status': 'Bad Request',
-                'message': 'Internal error occured, check your Internet connection OR the API back-end code'
+                'message': "1). Internal error occured, check your Internet connection OR the API back-end code. 2). Make sure that 'campusOrSchoolAcronym' and 'program_type' parameter is passed{}".format(e)
                 }, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -160,7 +155,7 @@ def add_campus_avs_report_images(request):
     data = request.data or request.query_params
     data_copy = data.copy()
     serializer = getCampusAVSReportImageSerializers(data=data_copy)
-    
+
 
     if serializer.is_valid():
         serializer.save()
@@ -171,7 +166,7 @@ def add_campus_avs_report_images(request):
                 'program_type': serializer.data['program_type'],
             }
         }, status=status.HTTP_200_OK)
-    
+
     else:
         return Response({
             'queryset': serializer.errors
@@ -189,18 +184,19 @@ def get_campus_avs_report_images(request):
         # query specific campus AVS in 'CampusAVS' Database
         queryset = ReportImage.objects.filter(campusOrSchoolAcronym=campus, program_type = program)
         serializer = getCampusAVSReportImageSerializers(queryset, many=True)
-    
+
         return Response({
             'queryset': serializer.data
-        }, status=status.HTTP_200_OK)   
+        }, status=status.HTTP_200_OK)
     except Exception as e:
         # query all the CAMPUS avs in 'CampusAVS' Database
         queryset = ReportImage.objects.all().order_by('id')
         serializer = getCampusAVSReportImageSerializers(queryset, many=True)
 
-        return Response({
-            'queryset': serializer.data
-        }, status=status.HTTP_200_OK)
+        return Response({'code': 400,
+                'status': 'Bad Request',
+                'message': "1). Internal error occured, check your Internet connection OR the API back-end code. 2). Make sure that 'campusOrSchoolAcronym' and 'program_type' parameter is passed. The system passed this error specifically ->{}".format(e)
+                }, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
@@ -208,7 +204,7 @@ def add_campus_avs_history_images(request):
     data = request.data or request.query_params
     data_copy = data.copy()
     serializer = CampusAVSHistorySerializers(data=data_copy)
-    
+
 
     if serializer.is_valid():
         serializer.save()
@@ -219,7 +215,7 @@ def add_campus_avs_history_images(request):
                 'message': 'New Picture, Successfully Uploaded!',
             }
         }, status=status.HTTP_200_OK)
-    
+
     else:
         return Response({
             'queryset': serializer.errors
@@ -235,11 +231,11 @@ def get_campus_avs_history_images(request):
         # query specific campus AVS in 'HistoryImage' Database
         queryset = HistoryImage.objects.filter(campusOrSchoolAcronym=campus)
         serializer = CampusAVSHistorySerializers(queryset, many=True)
-    
+
         return Response({
             'queryset': serializer.data
-        }, status=status.HTTP_200_OK) 
-      
+        }, status=status.HTTP_200_OK)
+
     except Exception as e:
         # query all the CAMPUS avs in 'CampusAVS' Database
         queryset =  HistoryImage.objects.all().order_by('id')
@@ -249,7 +245,7 @@ def get_campus_avs_history_images(request):
             'queryset': serializer.data
         }, status=status.HTTP_200_OK)
 
-  
+
 
 
 
