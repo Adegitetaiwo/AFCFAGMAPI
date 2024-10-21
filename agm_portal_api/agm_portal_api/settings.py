@@ -13,6 +13,16 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 
+import cloudinary
+cloudinary.config(
+ cloud_name = "drzllgwgm",
+ api_key = "525211466441156",
+ api_secret = "U5WEBPaMi0KGXr_8--5zAvtyqSg",
+ api_proxy = "http://proxy.server:3128"
+)
+import cloudinary.uploader
+import cloudinary.api
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,7 +38,7 @@ SECRET_KEY = 'django-insecure-*g0w+7mht*t(xvi9a%n1qmy(i$=%m#hi)7$@9**j17+13tbu-u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['afcfagm.pythonanywhere.com']
 
 
 # Application definition
@@ -42,11 +52,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
 
-    # 
+    #
     # custom defined apps
     'CentralApp',
-    
-    
+    'Landing_Page_App',
+
+
     # third-party apps
     'rest_framework',
     'cloudinary_storage', #cloundinary
@@ -57,13 +68,16 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+   # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'agm_portal_api.urls'
 
@@ -92,11 +106,11 @@ WSGI_APPLICATION = 'agm_portal_api.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'campusavs_db',
-        'USER': 'root',
-        'PASSWORD': 'ADE15112000gite ++@',
-        'HOST': 'localhost',
-        'PORT': '3305',
+        'NAME': 'afcfagm$default',
+        'USER': 'afcfagm',
+        'PASSWORD': 'ADE15112000giteAFCFagm',
+        'HOST': 'afcfagm.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
     }
 }
 
@@ -126,6 +140,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+
+
 # for saving Media Files
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': "drzllgwgm",
@@ -134,7 +151,7 @@ CLOUDINARY_STORAGE = {
     # os.getenv('CLOUDINARY_API_KEY'),
     'API_SECRET': "U5WEBPaMi0KGXr_8--5zAvtyqSg",
     # os.getenv('CLOUDINARY_API_SECRET')
-    'OVERWRITE':True
+    'api_proxy': 'http://proxy.server:3128'
 }
 
 
@@ -153,15 +170,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATIC_URL = '/static/'
-
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / "static/",
 ]
-
-STATIC_ROOT = '/staticfiles/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 

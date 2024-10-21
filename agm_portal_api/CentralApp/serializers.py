@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import CampusAVS, CampusAVSReport, ReportImage, HistoryImage
+from .models import CampusAVS, CampusAVSReport, HistoryImage
+from Landing_Page_App.models import WebPageIndexData, ProgramSchedule
 
 from rest_framework import status
 
@@ -20,13 +21,13 @@ class getCampusAvsListSerializers(serializers.ModelSerializer):
             OtherScheduleOfServiceDetails=self.validated_data['OtherScheduleOfServiceDetails'],
             averageNumberOfStudent=self.validated_data['averageNumberOfStudent'],
             numberOfWorkforce=self.validated_data['numberOfWorkforce'],
-                                                                
+
             coordinator_name = self.validated_data['coordinator_name'],
             coordinator_course = self.validated_data['coordinator_course'],
             coordinator_level = self.validated_data['coordinator_level'],
             coordinator_email = self.validated_data['coordinator_email'],
             coordinator_phonenumber = self.validated_data['coordinator_phonenumber'],
-                                                                
+
             secretary_name = self.validated_data['secretary_name'],
             secretary_course = self.validated_data['secretary_course'],
             secretary_level = self.validated_data['secretary_level'],
@@ -34,11 +35,11 @@ class getCampusAvsListSerializers(serializers.ModelSerializer):
             secretary_phonenumber = self.validated_data['secretary_phonenumber'],
         )
             return updated_campusavs_list
-        
+
         else:
 
             campusavs_list = CampusAVS.objects.create(
-                
+
                 campusOrSchoolAcronym=self.validated_data['campusOrSchoolAcronym'],
                 campusName=self.validated_data['campusName'],
                 about=self.validated_data['about'],
@@ -63,43 +64,60 @@ class getCampusAvsListSerializers(serializers.ModelSerializer):
                 secretary_phonenumber = self.validated_data['secretary_phonenumber'],
                 )
             return campusavs_list
-        
+
     class Meta:
         model = CampusAVS
         fields = '__all__'
-        
-class getCampusAVSReportImageSerializers(serializers.ModelSerializer):
-    
-    def save(self):
 
-        if ReportImage.objects.filter(campusOrSchoolAcronym=self.validated_data['campusOrSchoolAcronym'], program_type = self.validated_data['program_type']).exists():
-            instance = ReportImage.objects.filter(campusOrSchoolAcronym=self.validated_data['campusOrSchoolAcronym'], program_type = self.validated_data['program_type']).update(
-                campusOrSchoolAcronym = self.validated_data['campusOrSchoolAcronym'],
-                program_type = self.validated_data['program_type'],
-                picture1 = self.validated_data['picture1'],
-                picture2 = self.validated_data['picture2'],
-                picture3 = self.validated_data['picture3'],
-                picture4 = self.validated_data['picture4'],
-            )
+# class getCampusAVSReportImageSerializers(serializers.ModelSerializer):
 
-            return instance
-        else:
-            instance = ReportImage.objects.create(
-                campusOrSchoolAcronym = self.validated_data['campusOrSchoolAcronym'],
-                program_type = self.validated_data['program_type'],
-                picture1 = self.validated_data['picture1'],
-                picture2 = self.validated_data['picture2'],
-                picture3 = self.validated_data['picture3'],
-                picture4 = self.validated_data['picture4'],
-            )
-            return instance
-    
-    class Meta:
-        model = ReportImage
-        fields = '__all__'
+#     def save(self):
+
+#         if ReportImage.objects.filter(campusOrSchoolAcronym=self.validated_data['campusOrSchoolAcronym'], program_type = self.validated_data['program_type']).exists():
+#             instance = ReportImage.objects.filter(campusOrSchoolAcronym=self.validated_data['campusOrSchoolAcronym'], program_type = self.validated_data['program_type']).update(
+#                 campusOrSchoolAcronym = self.validated_data['campusOrSchoolAcronym'],
+#                 program_type = self.validated_data['program_type'],
+#                 picture1 = self.validated_data['picture1'],
+#                 picture2 = self.validated_data['picture2'],
+#                 picture3 = self.validated_data['picture3'],
+#                 picture4 = self.validated_data['picture4'],
+#             )
+
+#             return instance
+#         else:
+#             instance = ReportImage.objects.create(
+#                 campusOrSchoolAcronym = self.validated_data['campusOrSchoolAcronym'],
+#                 program_type = self.validated_data['program_type'],
+#                 picture1 = self.validated_data['picture1'],
+#                 picture2 = self.validated_data['picture2'],
+#                 picture3 = self.validated_data['picture3'],
+#                 picture4 = self.validated_data['picture4'],
+#             )
+#             return instance
+
+#     class Meta:
+#         model = ReportsImage
+#         fields = '__all__'
 
 
 class getCampusAVSReportSerializers(serializers.ModelSerializer):
+
+    def save(self):
+        obj, created = CampusAVSReport.objects.update_or_create(
+        campusOrSchoolAcronym=self.validated_data['campusOrSchoolAcronym'], program_type=self.validated_data['program_type'],
+        defaults={'year': self.validated_data['year'],
+                  'salvation': self.validated_data['salvation'],
+                  'sanctification': self.validated_data['sanctification'],
+                  'baptism': self.validated_data['baptism'],
+                  'healing': self.validated_data['healing'],
+                  'TotalAttendanceMale': self.validated_data['TotalAttendanceMale'],
+                  'TotalAttendanceFemale': self.validated_data['TotalAttendanceFemale'],
+                  'TotalAttendance': self.validated_data['TotalAttendance']
+                  },
+                )
+
+        return obj
+
 
     class Meta:
         model = CampusAVSReport
@@ -107,9 +125,22 @@ class getCampusAVSReportSerializers(serializers.ModelSerializer):
 
 
 class CampusAVSHistorySerializers(serializers.ModelSerializer):
-    
+
     class Meta:
         model = HistoryImage
+        fields = '__all__'
+
+class WebPageIndexDataSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = WebPageIndexData
+        fields = '__all__'
+
+
+class ProgramScheduleSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProgramSchedule
         fields = '__all__'
 
 
