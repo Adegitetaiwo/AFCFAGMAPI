@@ -307,13 +307,13 @@ def get_campus_avs_history_images_as_list(request):
             if "false" in str(image).lower() or image == False or image == "" or image == "null":
                 pass
             else:
-                nrp_images.append(image)
+                nrp_images.append(f"https://res.cloudinary.com/drzllgwgm/raw/upload/v1/{image}")
 
         for image in wlc_image_list:
             if "false" in str(image).lower() or image == False or image == "" or image == "null":
                 pass
             else:
-                wlc_images.append(image)
+                wlc_images.append(f"https://res.cloudinary.com/drzllgwgm/raw/upload/v1/{image}")
 
 
         b = {
